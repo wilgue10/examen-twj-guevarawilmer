@@ -1,3 +1,141 @@
-<p>
-  poder works!
-</p>
+<h1 class="text-center">Poderes de Héroes</h1>
+<h2 class="text-center">
+  {{title}}
+</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <form class="animated bounceIn" (ngSubmit)="crearPoder(NuevoPoderForm)" #NuevoPoderForm="ngForm">
+        <div class="form-group">
+          <label>Nombre del Poder:</label>
+          <input required
+                 type="text"
+                 class="form-control"
+                 placeholder="Ingrese el nombre del Poder"
+                 name="nombrePoder"
+                 [(ngModel)]="nuevoPoder.nombrePoder"
+                 #nombrePoder="ngModel"
+                 #nombreElm>
+        </div>
+
+        <div class="form-group">
+          <label>Danio del Poder:</label>
+          <input required
+                 type="number"
+                 min="0"
+                 max="100"
+                 class="form-control"
+                 placeholder="Ingrese el danio ocasionado por el poder"
+                 name="danioPoder"
+                 [(ngModel)]="nuevoPoder.danioPoder"
+                 #danioPoder="ngModel"
+                 #nombreElm>
+        </div>
+
+        <div class="form-group">
+          <label>Nivel del Poder:</label>
+          <input required
+                 type="number"
+                 min="0"
+                 max="10"
+                 class="form-control"
+                 placeholder="Ingrese el nivel del poder"
+                 name="nivelPoder"
+                 [(ngModel)]="nuevoPoder.nivelPoder"
+                 #nivelPoder="ngModel"
+                 #nombreElm>
+        </div>
+
+        <button [disabled]="disabledButtons.NuevoPoderFormSubmitButton || !NuevoPoderForm.valid" type="submit" class="btn btn-block btn-success">Crear Poder</button>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <h1>{{nuevoPoder.nombrePoder}}</h1>
+    </div>
+  </div>
+
+  <br><br>
+  <br><br>
+
+  <h1 class="text-center" style="border-top: solid; padding-top: 1cm">Lista de Poderes para cada Héroe</h1>
+
+  <div class="row">
+    <div class="col-sm-12 animated flipInX" style="border-bottom: solid; padding-bottom: 1cm; padding-top: 1cm"  *ngFor="let poder of poderes">
+      <div class="col-sm-5 text-center">
+        <h3>{{poder.nombrePoder}}</h3>
+      </div>
+
+      <div class="col-sm-7 text-center">
+        <p> Danio: {{poder.danioPoder}} </p>
+        <p> Nivel: {{poder.nivelPoder}}</p>
+      </div>
+
+      <div class="row" [hidden]="!poder.formularioCerrado">
+        <div class="col-sm-5">
+          <button class="btn btn-block btn-info"
+                  (click)="poder.formularioCerrado = !poder.formularioCerrado">Actualizar Poder</button>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-5">
+          <button class="btn btn-block btn-danger" (click)="borrarPoder(poder.id)">X</button>
+        </div>
+
+      </div>
+      <div class="row animated flipInY" [hidden]="poder.formularioCerrado">
+        <form action="">
+          <form class="animated bounceIn" (ngSubmit)="editarPoder(poder, poder.id)" #NuevoPoderForm="ngForm">
+            <div class="form-group">
+              <label>Nombre del Poder:</label>
+              <input required
+                     type="text"
+                     class="form-control"
+                     placeholder="Ingrese el nombre del Poder"
+                     name="nombrePoder"
+                     [(ngModel)]="poder.nombrePoder"
+                     #nombrePoder="ngModel"
+                     #nombreElm>
+            </div>
+
+            <div class="form-group">
+              <label>Danio del Poder:</label>
+              <input required
+                     type="number"
+                     min="0"
+                     max="100"
+                     class="form-control"
+                     placeholder="Ingrese el danio ocasionado por el poder"
+                     name="danioPoder"
+                     [(ngModel)]="poder.danioPoder"
+                     #danioPoder="ngModel"
+                     #nombreElm>
+            </div>
+
+            <div class="form-group">
+              <label>Nivel del Poder:</label>
+              <input required
+                     type="number"
+                     min="0"
+                     max="10"
+                     class="form-control"
+                     placeholder="Ingrese el nivel del poder"
+                     name="nivelPoder"
+                     [(ngModel)]="poder.nivelPoder"
+                     #nivelPoder="ngModel"
+                     #nombreElm>
+            </div>
+            <div class="col-sm-6">
+              <button [disabled]="disabledButtons.NuevoPoderFormSubmitButton ||!NuevoPoderForm.valid" type="submit"
+                      class="btn btn-block btn-success">Actualizar Poder
+              </button>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-block btn-warning" (click)="poder.formularioCerrado=!poder.formularioCerrado">
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,99 +1,136 @@
-<h1>{{title}}</h1>
-<h2>{{error}}</h2>
+<h1 class="text-center">Tus Héroes Favoritos</h1>
+<h2 class="text-center">
+  {{title}}
+</h2>
 <div class="container">
   <div class="row">
-    <div class="col-sm-12">
-      <pre class="animated fadeInUp">
-        {{nuevoHeroe | json}}
-      </pre>
-    </div>
     <div class="col-sm-6">
-      <form class="animated bounceIn" (ngSubmit)="crearHeroe(nuevoHeroe)" #NuevoHeroForm="ngForm">
+      <form class="animated bounceIn" (ngSubmit)="crearHeroe(NuevoHeroeForm)" #NuevoHeroeForm="ngForm">
         <div class="form-group">
-          <label>Heroe</label>
-          <!--<div class="animated slideInUp" [hidden]="!nombre.errors">-->
-          <!--<span style="font-size:40px" class="bg-primary" *ngIf="nombre.errors && (nombre.dirty || nombre.touched)" >Ingrese un nombre minimo con 4 caracteres </span>-->
-          <!--</div>-->
-
+          <label>Nombre del Héroe:</label>
           <input required
-                 minlength="5"
                  type="text"
                  class="form-control"
-                 placeholder="Digite un nombre de un heroe como: Wolverine"
-                 name="nombre"
-                 [(ngModel)]="nuevoHeroe.nombre"
-                 #nombre="ngModel"
+                 placeholder="Ingrese el nombre del Héroe como wolverine"
+                 name="nombreHeroe"
+                 [(ngModel)]="nuevoHeroe.nombreHeroe"
+                 #nombreHeroe="ngModel"
                  #nombreElm>
         </div>
-        <button [disabled]="disabledButtons.NuevoHeroeFormSubmitButton||!NuevoHeroForm.valid" type="submit"
-                class="btn btn-block btn-success">Crear
-        </button>
+        <div class="form-group">
+          <label>Castillo del Héroe:</label>
+          <input required
+                 type="text"
+                 class="form-control"
+                 placeholder="Ingrese el castillo del Héroe"
+                 name="castilloHeroe"
+                 [(ngModel)]="nuevoHeroe.castilloHeroe"
+                 #castilloHeroe="ngModel"
+                 #nombreElm>
+        </div>
+        <div class="form-group">
+          <label>Nivel del Héroe:</label>
+          <input required
+                 type="number"
+                 min="0"
+                 max="10"
+                 class="form-control"
+                 placeholder="Ingrese el nivel del Héroe"
+                 name="nivelHeroe"
+                 [(ngModel)]="nuevoHeroe.nivelHeroe"
+                 #nivelHeroe="ngModel"
+                 #nombreElm>
+        </div>
+        <button [disabled]="disabledButtons.NuevoHeroeFormSubmitButton || !NuevoHeroeForm.valid" type="submit" class="btn btn-block btn-success">Crear Héroe</button>
       </form>
     </div>
     <div class="col-sm-6">
-      <h1>{{nuevoHeroe.nombre}}</h1>
+      <h1>{{nuevoHeroe.nombreHeroe}}</h1>
     </div>
-    <!--<div class="col-sm-12">-->
-    <!--<pre>-->
-    <!--{{tiendas | json}}-->
-    <!--</pre>-->
-    <!--</div>-->
-
-
   </div>
-  <div class="row">
-    <div class="col-sm-12 animated flipInX" *ngFor="let heroe of heroes">
-      <div class="text-center">
-        <h3>{{heroe.nombre}}</h3>
-        <p>ID: {{heroe.id}}</p>
+
+  <br><br>
+  <br><br>
+
+  <h1 class="text-center" style="border-top: solid; padding-top: 1cm">Lista de Héroes Registrados</h1>
+
+  <div class="row" >
+    <div class="col-sm-12 animated flipInX" style="border-bottom: solid; padding-bottom: 1cm; padding-top: 1cm" *ngFor="let heroe of heroes">
+      <div class="row">
+        <div class="col-sm-5 text-center">
+          <h3>{{heroe.nombreHeroe}}</h3>
+        </div>
+
+        <div class="col-sm-7 text-center">
+          <p> Castillo: {{heroe.castilloHeroe}} </p>
+          <p> Nivel: {{heroe.nivelHeroe}}</p>
+          <br>
+          <a [routerLink]="[heroe.id,'poder']">Ir a Poderes</a>
+        </div>
       </div>
-      <div class="row animated flipInY" [hidden]="!heroe.formularioCerrado">
+
+      <div class="row" style="padding-top: 1cm" [hidden]="!heroe.formularioCerrado">
         <div class="col-sm-5">
           <button class="btn btn-block btn-info"
-                  (click)="heroe.formularioCerrado = !heroe.formularioCerrado"
-          >Actualizar</button>
+                  (click)="heroe.formularioCerrado = !heroe.formularioCerrado">Actualizar Héroe</button>
         </div>
         <div class="col-sm-2"></div>
         <div class="col-sm-5">
-          <button class="btn btn-block btn-danger" (click)="borrarHeroe(heroe.id)">Borrar</button>
+          <button class="btn btn-block btn-danger" (click)="borrarHeroe(heroe.id)">X</button>
         </div>
-        <div class="col-sm-12">
-          <a [routerLink]="[heroe.id,'poder']">Ir a poderes</a>
-        </div>
+
       </div>
-      <div class="div" [hidden]="heroe.formularioCerrado">
+      <div class="row animated flipInY" [hidden]="heroe.formularioCerrado">
         <form action="">
-          <form class="animated bounceIn" (ngSubmit)="actualizarHeroe(heroe)" #NuevoHeroForm="ngForm">
+          <form class="animated bounceIn" (ngSubmit)="editarHeroe(heroe)" #NuevoHeroeForm="ngForm">
             <div class="form-group">
-              <label>Heroe</label>
+              <label>Nombre del Héroe:</label>
               <input required
-                     minlength="5"
                      type="text"
                      class="form-control"
-                     placeholder="Digite un nombre de un heroe como: Wolverine"
-                     name="nombre"
-                     [(ngModel)]="heroe.nombre"
-                     #nombre="ngModel"
+                     placeholder="Ingrese el nombre del Héroe"
+                     name="nombreHeroe"
+                     [(ngModel)]="heroe.nombreHeroe"
+                     #nombreHeroe="ngModel"
                      #nombreElm>
             </div>
-            <button [disabled]="disabledButtons.NuevoHeroeFormSubmitButton||!NuevoHeroForm.valid" type="submit"
-                    class="btn btn-block btn-success">Update
-            </button>
-            <button type="button"
-                    class="btn btn-block btn-warning"
-                    (click)="heroe.formularioCerrado = !heroe.formularioCerrado"
-            >
-              Cancelar
-            </button>
+            <div class="form-group">
+              <label>Castillo del Héroe:</label>
+              <input required
+                     type="text"
+                     class="form-control"
+                     placeholder="Ingrese el castillo del Héroe"
+                     name="castilloHeroe"
+                     [(ngModel)]="heroe.castilloHeroe"
+                     #castilloHeroe="ngModel"
+                     #nombreElm>
+            </div>
+            <div class="form-group">
+              <label>Nivel del Héroe:</label>
+              <input required
+                     type="number"
+                     min="0"
+                     max="10"
+                     class="form-control"
+                     placeholder="Ingrese el nivel del Héroe"
+                     name="nivelHeroe"
+                     [(ngModel)]="heroe.nivelHeroe"
+                     #nivelHeroe="ngModel"
+                     #nombreElm>
+            </div>
+            <div class="col-sm-6">
+              <button [disabled]="disabledButtons.NuevoHeroeFormSubmitButton ||!NuevoHeroeForm.valid" type="submit"
+                      class="btn btn-block btn-success">Actualizar Héroe
+              </button>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-block btn-warning" (click)="heroe.formularioCerrado=!heroe.formularioCerrado">
+                Cancelar
+              </button>
+            </div>
           </form>
         </form>
       </div>
-
     </div>
   </div>
-
-
 </div>
-
-<!--<router-outlet></router-outlet>-->
-
